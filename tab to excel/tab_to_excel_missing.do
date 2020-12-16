@@ -2,6 +2,7 @@
 
 ***** SIMPLE TAB TO EXCEL *****
 
+** excel exportable version of "tab variable, m"
 ** NOTE: Run each preserve-restore chunk at once
 
 clear
@@ -35,10 +36,14 @@ egen percent= total(frequency)
 sum(frequency)
 scal tot=r(sum)
 replace percent=(frequency/percent)*100
+g cumulative=sum(percent)
 gen percent_s = string(percent, "%3.2f")  // can change format
 drop percent
 rename percent_s percent
-tostring frequency percent, replace
+gen cumulative_s = string(cumulative, "%3.2f")  // can change format
+drop cumulative
+rename cumulative_s cumulative
+tostring frequency percent cumulative, replace
 insobs 1, before(1)
 
 foreach var of varlist * {
@@ -56,7 +61,7 @@ replace `1' = `1'[`=_N'] in 1
 replace `1'="Total" in l   // last character is lowercase L and not the #1
 replace frequency=strofreal(tot) in l  // last character is lowercase L and not the #1
 replace percent="100" in l  // last character is lowercase L and not the #1
-export excel using "path\filename.xlsx OR .xls",replace   // specify path for saving file
+export excel using "path\filename\\`1'.xlsx OR .xls",replace   // specify path for saving file
 restore
 end
 
