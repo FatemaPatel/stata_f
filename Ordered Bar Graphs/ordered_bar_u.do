@@ -26,4 +26,16 @@ gr hbar `varlist', ascat bar(1, color(ebblue*0.5)) graphregion(fcolor(white)) yl
 		}
 end
 */
+
+/*
+  *Idea 2
+cap drop mr_ordered_bar_u
+program define mr_ordered_bar_u	// multiple response bar graph no legend userdefined
+	syntax varlist, figname() gphpath() [color()] ///
+	[opacity()] [ylab()] [savinggph()] [ytitle()] ///
+	[ytitsize()] [tit()] [titsize()] [graphregion()] 
   
+	* ylab should be a compound double quotes Eg: '"0 "0" 0.25 "25" 0.5 "50" 0.75 "75""'
+	* savinggph should be: saving(varname,replace)
+	* graphregion should be: margin(7 5 2 2)
+*/
